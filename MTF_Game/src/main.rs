@@ -4,17 +4,17 @@ use rand::Rng;
 use std::time::Duration;
 use std::thread;
 
+println!("What is your codename?");
+
+let mut codename = String::new();
+
+io::stdin()
+    .read_line(&mut codename)
+    .expect("Failed to read line");
 
 fn main() {
-    println!("What is your codename?");
 
-    let mut codename = String::new();
-
-    io::stdin()
-        .read_line(&mut codename)
-        .expect("Failed to read line");
-
-    start(&codename);
+    start();
 }
 
 fn clear_screen() {
@@ -22,7 +22,7 @@ fn clear_screen() {
     std::io::Write::flush(&mut std::io::stdout()).unwrap(); // Ensure it updates immediately
 }
 
-fn start(codename: &str) {
+fn start() {
     clear_screen();
 
     let recruit_num = rand::rng().random_range(1..=10000);
@@ -38,5 +38,13 @@ fn start(codename: &str) {
 
     println!("\nAfter going through our records, it seems you have been cleared to join Mobile Task Force Epsilon-11, code named 'Nine Tailed Fox.'\nYou will be stationed at Site [READACTED].\nYou are expected to arrive at 0900 hours and meet with Director [REDACTED]...................\n");
 
-    println!("ERROR\nERROR\nERROR\nERROR\nERROR\n Audio log corrupted............")
+    println!("ERROR\nERROR\nERROR\nERROR\nERROR\nAudio log corrupted............\n\n\n\n")
+}
+
+fn introduction() {
+
+    thread::sleep(Duration::from_secs(5));
+
+    println!("The room is dark outside of the yellow revolving safety light. Haven woken up ");
+
 }
