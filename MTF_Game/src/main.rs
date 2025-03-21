@@ -4,17 +4,66 @@ use rand::Rng;
 use std::time::Duration;
 use std::thread;
 
-println!("What is your codename?");
 
-let mut codename = String::new();
+//structs and other items used to keep track of the player and their inventory
 
-io::stdin()
-    .read_line(&mut codename)
-    .expect("Failed to read line");
+struct Player {
+    health: i32,
+    inventory: Vec<Item>,
+    status_effects: Vec<StatusEffect>
+}
+
+impl Player {
+    fn add_item(&mut self, item: Item){
+        self.inventory.push(item);
+    }
+
+    fn remove_item(&mut self, item_name: &str) {
+        self.inventory.retain(|item| item.name != item_name);
+    }
+
+    fn apply_status(&mut self, status: StatusEffect) {
+        self.status_effects.push(status);
+    }
+
+    // Method to heal the player
+    fn heal(&mut self, amount: i32) {
+        self.health += amount;
+        println!("You heal {} HP. Current HP: {}", amount, self.health);
+    }
+}
+
+struct Item {
+    name: String,
+    item_type: ItemType,
+}
+
+enum ItemType {
+    Weapon { damage: i32 },
+    Medkit { heal_amount: i32 },
+    KeyCard { clearance_level: i32 },
+}
+
+enum StatusEffect {
+    Infected(i32), // Deals damage over time
+    Bleeding(i32), // Gradually reduces HP
+    Haste,         // Increases speed
+}
+
+
+
 
 fn main() {
 
-    start();
+    println!("What is your codename?");
+
+    let mut codename = String::new();
+
+    io::stdin()
+    .read_line(&mut codename)
+    .expect("Failed to read line");
+
+    start(codename.trim());
 }
 
 fn clear_screen() {
@@ -22,7 +71,7 @@ fn clear_screen() {
     std::io::Write::flush(&mut std::io::stdout()).unwrap(); // Ensure it updates immediately
 }
 
-fn start() {
+fn start(codename: &str) {
     clear_screen();
 
     let recruit_num = rand::rng().random_range(1..=10000);
@@ -45,6 +94,6 @@ fn introduction() {
 
     thread::sleep(Duration::from_secs(5));
 
-    println!("The room is dark outside of the yellow revolving safety light. Haven woken up ");
+    println!("The room is dark outside of the yellow revolving safety light. Haven woken up, face once laying against a keyboard, the computer screen showing audio error, ");
 
 }
