@@ -1,22 +1,22 @@
 ## Overview
 
-**Project Title**:
+**Project Title**: Scp text game
 
-**Project Description**:
+**Project Description**: A agem set within the scp universe in text form
 
-**Project Goals**:
+**Project Goals**: Create a text game using rust
 
 ## Instructions for Build and Use
 
 Steps to build and/or run the software:
 
-1. First step here
-2.
-3.
+1. ensure rust is installed
+2. ensure cargo is installed and cd into the folder called MTF_Game
+3. then type cargo run in terminal
 
 Instructions for using the software:
 
-1. First step here
+1. it is a basic program so follow the instructions given
 2.
 3.
 
@@ -24,15 +24,15 @@ Instructions for using the software:
 
 To recreate the development environment, you need the following software and/or libraries with the specified versions:
 
-* First thing here
-*
+* rust
+* cargo
 *
 
 ## Useful Websites to Learn More
 
 I found these websites useful in developing this software:
 
-* [Website Title](Link)
+* [rust by example](https://doc.rust-lang.org/rust-by-example/index.html)
 *
 *
 
@@ -40,6 +40,6 @@ I found these websites useful in developing this software:
 
 The following items I plan to fix, improve, and/or add to this project in the future:
 
-* [ ] First thing here
+* [ ] create the actual text of the game and update the combat code to be actual combat
 * [ ]
 * [ ]
