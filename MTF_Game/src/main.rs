@@ -2,7 +2,14 @@ use std::collections::HashMap;
 use std::io;
 use rand::Rng;
 
-type Inventory = HashMap<String, HashMap<String, String>>; // Key: Item name, Value: Item properties (like type, used, etc.)
+#[derive(Clone)]
+struct Item {
+    name: String,
+    item_type: String, // Could be "Weapon", "Medkit", etc.
+    used: bool,
+}
+
+type Inventory = Vec<Item>; // Inventory will now be a Vec<Item>
 
 fn create_player(name: &str) -> HashMap<String, String> {
     let mut player = HashMap::new();
@@ -13,14 +20,16 @@ fn create_player(name: &str) -> HashMap<String, String> {
 }
 
 fn add_item(player_inventory: &mut Inventory, item_name: &str, item_type: &str) {
-    let mut item = HashMap::new();
-    item.insert("type".to_string(), item_type.to_string());
-    item.insert("used".to_string(), "false".to_string());
-    player_inventory.insert(item_name.to_string(), item);
+    let item = Item {
+        name: item_name.to_string(),
+        item_type: item_type.to_string(),
+        used: false,
+    };
+    player_inventory.push(item);
 }
 
 fn remove_item(player_inventory: &mut Inventory, item_name: &str) {
-    player_inventory.remove(item_name);
+    player_inventory.retain(|item| item.name != item_name); // Remove item by name
 }
 
 fn heal(player: &mut HashMap<String, String>, amount: i32) {
@@ -41,20 +50,16 @@ fn attack(player: &HashMap<String, String>, weapon: &str) -> i32 {
 }
 
 fn use_item(player_inventory: &mut Inventory, player: &mut HashMap<String, String>, item_name: &str) {
-    if let Some(item) = player_inventory.get_mut(item_name) {
-        if item.get("used").unwrap() == "false" {
-            if item.get("type").unwrap() == "Medkit" {
-                heal(player, 50); // Heal the player
-                item.insert("used".to_string(), "true".to_string()); // Mark as used
-                println!("You used a Medkit and healed 50 HP.");
-            } else {
-                println!("This item cannot be used right now.");
-            }
+    if let Some(item) = player_inventory.iter_mut().find(|i| i.name == item_name && !i.used) {
+        if item.item_type == "Medkit" {
+            heal(player, 50); // Heal the player
+            item.used = true; // Mark as used
+            println!("You used a Medkit and healed 50 HP.");
         } else {
-            println!("This item has already been used.");
+            println!("This item cannot be used right now.");
         }
     } else {
-        println!("Item not found in inventory.");
+        println!("Item not found or already used.");
     }
 }
 
@@ -151,7 +156,7 @@ fn main() {
     io::stdin().read_line(&mut codename).expect("Failed to read input");
 
     let mut player = create_player(codename.trim());
-    let mut player_inventory: Inventory = HashMap::new();
+    let mut player_inventory: Inventory = Vec::new();
 
     add_item(&mut player_inventory, "Pistol", "Weapon");
     add_item(&mut player_inventory, "Medkit", "Medkit");
