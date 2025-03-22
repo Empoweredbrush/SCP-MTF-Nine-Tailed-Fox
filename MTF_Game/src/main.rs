@@ -9,7 +9,7 @@ struct Item {
     used: bool,
 }
 
-type Inventory = Vec<Item>; // Inventory will now be a Vec<Item>
+type Inventory = Vec<Item>; 
 
 fn create_player(name: &str) -> HashMap<String, String> {
     let mut player = HashMap::new();
@@ -52,7 +52,7 @@ fn attack(player: &HashMap<String, String>, weapon: &str) -> i32 {
 fn use_item(player_inventory: &mut Inventory, player: &mut HashMap<String, String>, item_name: &str) {
     if let Some(item) = player_inventory.iter_mut().find(|i| i.name == item_name && !i.used) {
         if item.item_type == "Medkit" {
-            heal(player, 50); // Heal the player
+            heal(player, 50); 
             item.used = true; // Mark as used
             println!("You used a Medkit and healed 50 HP.");
         } else {
